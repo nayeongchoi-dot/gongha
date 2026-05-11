@@ -1,0 +1,18 @@
+{
+  "name": "공하",
+  "short_name": "공하",
+  "description": "EST. 2025 · MEMBERS ONLY",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F0E5",
+  "theme_color": "#F5F0E5",
+  "icons": [
+    {
+      "src": "/background_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
