@@ -10,12 +10,18 @@ import {
 // ─── DATA ────────────────────────────────────────────────────────────
 const members = [
   { id: 1, name: '김민정', initial: '김', clinic: '필스톡스의원', color: '#8AA5BA', bio: '' },
+  { id: 7, name: '박신혜', initial: '박', clinic: '미호의원', color: '#C9A8A0', bio: '' },
   { id: 2, name: '박일권', initial: '박', clinic: '더올림의원', color: '#A89576', bio: '' },
   { id: 3, name: '유동욱', initial: '유', clinic: '핀다의원', color: '#DBB38B', bio: '' },
   { id: 4, name: '장진혁', initial: '장', clinic: '미라인의원', color: '#C4BD90', bio: '' },
   { id: 5, name: '정수희', initial: '정', clinic: '수희의원', color: '#CBD0C9', bio: '' },
   { id: 6, name: '최나영', initial: '최', clinic: '새나의원', color: '#7A8590', bio: '' },
 ];
+
+// 멤버 id로 안전하게 찾기 (배열 인덱스 의존 X)
+function findMember(id) {
+  return members.find(m => m.id === id) || members[0];
+}
 
 const categories = ['전체', '시술 노하우', '케이스 공유', '논문·학회', '자유'];
 
@@ -744,9 +750,9 @@ function HomeScreen({ user, onNav, conferences, posts, duesBalance, pastMeetings
           <button key={post.id} onClick={() => { onNav('board'); setOpenPost(post); }}
             className="w-full text-left rounded-xl p-4 flex gap-3"
             style={{ background: C.paper, border: `1px solid ${C.line}` }}>
-            <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
-                 style={{ background: members[post.authorId-1].color, color: C.ink, fontFamily: fontSerif, fontSize: '14px' }}>
-              {members[post.authorId-1].initial}
+           <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                 style={{ background: findMember(post.authorId).color, color: C.ink, fontFamily: fontSerif, fontSize: '14px' }}>
+              {findMember(post.authorId).initial}
             </div>
             <div className="flex-1 min-w-0">
               <div style={{ fontSize: '10px', color: C.accent, fontWeight: 600, letterSpacing: '0.05em' }}>{post.category}</div>
@@ -1182,8 +1188,8 @@ function BoardScreen({ posts, activeCategory, setActiveCategory, setOpenPost, on
             <div className="flex items-center justify-between mt-3 pt-3 border-t" style={{ borderColor: C.line }}>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 rounded-full flex items-center justify-center"
-                     style={{ background: members[post.authorId-1].color, color: C.ink, fontFamily: fontSerif, fontSize: '10px' }}>
-                  {members[post.authorId-1].initial}
+                     style={{ background: findMember(post.authorId).color, color: C.ink, fontFamily: fontSerif, fontSize: '10px' }}>
+                  {findMember(post.authorId).initial}
                 </div>
                 <span style={{ fontSize: '11px', color: C.ink, fontWeight: 500 }}>{post.author}</span>
               </div>
@@ -1199,7 +1205,7 @@ function BoardScreen({ posts, activeCategory, setActiveCategory, setOpenPost, on
 }
 
 function PostDetail({ post, user, onEdit, onDelete, onAddComment, onDeleteComment }) {
-  const author = members[post.authorId - 1];
+  const author = findMember(post.authorId);
   const isMine = user && post.authorId === user.id;
   const commentList = Array.isArray(post.commentList) ? post.commentList : [];
 
@@ -1268,7 +1274,7 @@ function PostDetail({ post, user, onEdit, onDelete, onAddComment, onDeleteCommen
         ) : (
           <div className="space-y-2">
             {commentList.map((c) => {
-              const cAuthor = members[(c.authorId || 1) - 1] || members[0];
+              const cAuthor = findMember(c.authorId || 1);
               const isMineC = user && c.authorId === user.id;
               const date = new Date(c.t || 0);
               const timeAgo = (() => {
@@ -1714,7 +1720,7 @@ function EditMeetingScreen({ meeting, onSave, onCancel }) {
              style={{ background: C.paper, border: `1px solid ${C.line}` }}>
           <Sparkles size={14} style={{ color: C.accent, marginTop: '2px', flexShrink: 0 }} />
           <div style={{ fontSize: '11px', color: C.inkSoft, lineHeight: 1.6 }}>
-            6명 모두 자유롭게 수정할 수 있어요. 변경 즉시 반영됩니다.
+            공하 멤버 모두 자유롭게 수정할 수 있어요. 변경 즉시 반영됩니다.
           </div>
         </div>
 
@@ -1802,7 +1808,7 @@ function EditDuesScreen({ balance, onSave, onCancel }) {
              style={{ background: C.paper, border: `1px solid ${C.line}` }}>
           <Sparkles size={14} style={{ color: C.accent, marginTop: '2px', flexShrink: 0 }} />
           <div style={{ fontSize: '11px', color: C.inkSoft, lineHeight: 1.6 }}>
-            6명 모두 자유롭게 수정할 수 있어요. 입출금 발생 시 잔액을 갱신해주세요.
+            공하 멤버 모두 자유롭게 수정할 수 있어요. 입출금 발생 시 잔액을 갱신해주세요.
           </div>
         </div>
 
@@ -1953,7 +1959,7 @@ function EditEventScreen({ event, onSave, onDelete, onCancel }) {
              style={{ background: C.paper, border: `1px solid ${C.line}` }}>
           <Sparkles size={14} style={{ color: C.accent, marginTop: '2px', flexShrink: 0 }} />
           <div style={{ fontSize: '11px', color: C.inkSoft, lineHeight: 1.6 }}>
-            6명 모두 자유롭게 추가·수정할 수 있어요.
+            공하 멤버 모두 자유롭게 추가·수정할 수 있어요.
           </div>
         </div>
 
@@ -2095,7 +2101,7 @@ function EditPastMeetingScreen({ record, onSave, onDelete, onCancel }) {
              style={{ background: C.paper, border: `1px solid ${C.line}` }}>
           <Sparkles size={14} style={{ color: C.accent, marginTop: '2px', flexShrink: 0 }} />
           <div style={{ fontSize: '11px', color: C.inkSoft, lineHeight: 1.6 }}>
-            6명이 함께 채워가요. 추가하면 자동으로 날짜순 정렬됩니다.
+            공하 멤버들이 함께 채워가요. 추가하면 자동으로 날짜순 정렬됩니다.
           </div>
         </div>
 
