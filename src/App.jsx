@@ -597,7 +597,7 @@ function LoginScreen({ onPick }) {
           空 河
         </div>
         <div className="mt-6 text-center max-w-xs" style={{ color: C.inkSoft, fontSize: '12px', lineHeight: 1.7 }}>
-          욕심 없이 흐르는 강처럼<br/>꾸준한 공부와 지혜를 나누는 모임
+          욕심 없이 흐르는 강처럼<br/>꾸준한 공부와 지혜를 나누는 모임<br/>
         </div>
       </div>
       <div className="pb-4">
@@ -1410,7 +1410,7 @@ function MembersScreen({ user, memberBios, memberPhones, onEditBio }) {
 
       <div className="mt-8 p-5 rounded-xl text-center" style={{ background: C.paper, border: `1px dashed ${C.line}` }}>
         <div style={{ fontFamily: fontSerif, fontSize: '13px', color: C.inkSoft, fontStyle: 'italic', lineHeight: 1.7 }}>
-          "욕심 없이 흐르는 강처럼, 꾸준한 공부와 지혜를 나누는 모임"
+          "욕심 없이 흐르는 강처럼<br/>꾸준한 공부와 지혜를 나누는 모임"
         </div>
       </div>
     </div>
